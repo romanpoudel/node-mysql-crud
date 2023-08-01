@@ -10,7 +10,7 @@ let connection;
 app.post("/user/add", (req, res) => {
   const { username, location } = req.body;
   connection.query(
-    `INSERT INTO users(username,location) VALUES('${username}','${location}')`,
+    `INSERT INTO users(username,location) VALUES(?,?)`,[username,location],
     (err, results, fields) => {
       if (err) throw err;
       console.log(results);
@@ -47,7 +47,7 @@ app.put("/user/update/:id", (req, res) => {
   if (id) {
     const { username, location } = req.body;
     connection.query(
-      `UPDATE users SET username='${username}', location='${location}' WHERE id=${id}`,
+      `UPDATE users SET username=?, location=? WHERE id=?`,[username,location,id],
       (err, results, fields) => {
         console.log(results);
         if (results.affectedRows === 1) {
